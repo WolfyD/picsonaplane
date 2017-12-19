@@ -13,6 +13,7 @@ namespace picsonaplane
 {
 	public partial class Form1 : Form
 	{
+		public List<imagePositioning> imposlist = new List<imagePositioning>();
 		List<string> picList = new List<string>();
 
 
@@ -129,4 +130,17 @@ namespace picsonaplane
 			p_Drop.Dock = DockStyle.None;
 		}
 	}
+
+	public class imagePositioning
+	{
+		public string imgName { get; set; }
+		public string path { get; set; }
+		public int originalW { get; set; }
+		public int originalH { get; set; }
+		public int resizedW { get; set; }
+		public int resizedH { get; set; }
+		public int left { get; set; }
+		public int top { get; set; }
+	}
+
 }

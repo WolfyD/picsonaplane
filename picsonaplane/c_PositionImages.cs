@@ -8,21 +8,21 @@ namespace picsonaplane
 {
 	class c_PositionImages
 	{
+		public void addImageToList(string path, int wid, int hei, ref List<imagePositioning> impl)
+		{
+			impl.Add(new imagePositioning() {
+				path = path,
+				imgName = path.Substring(path.LastIndexOf("\\") + 1),
+				originalH = hei,
+				originalW = wid }
+			);
+		}
+
 		public void createPositions()
 		{
 
 		}
 	}
 
-	public class imagePositioning
-	{
-		public string imgName { get; set; }
-		public string path { get; set; }
-		public int originalW { get; set; }
-		public int originalH { get; set; }
-		public int resizedW { get; set; }
-		public int resizedH { get; set; }
-		public int left { get; set; }
-		public int top { get; set; }
-	}
+	
 }
