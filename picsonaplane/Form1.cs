@@ -129,6 +129,17 @@ namespace picsonaplane
 			updateList();
 			p_Drop.Dock = DockStyle.None;
 		}
+
+		private void cb_Scheme_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (cb_Scheme.SelectedIndex == 0) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s323); }
+			else if (cb_Scheme.SelectedIndex == 1) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s232); }
+			else if (cb_Scheme.SelectedIndex == 2) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s333); }
+			else if (cb_Scheme.SelectedIndex == 3) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s434); }
+			else if (cb_Scheme.SelectedIndex == 4) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s212); }
+			else if (cb_Scheme.SelectedIndex == 6) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s133); }
+			else if (cb_Scheme.SelectedIndex == 7) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s134); }
+		}
 	}
 
 	public class imagePositioning
@@ -141,6 +152,18 @@ namespace picsonaplane
 		public int resizedH { get; set; }
 		public int left { get; set; }
 		public int top { get; set; }
+	}
+
+	public enum Schemes
+	{
+		s323,
+		s232,
+		s333,
+		s434,
+		s212,
+		s313,
+		s133,
+		s134
 	}
 
 }
