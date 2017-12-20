@@ -16,10 +16,71 @@ namespace picsonaplane
 		public List<imagePositioning> imposlist = new List<imagePositioning>();
 		List<string> picList = new List<string>();
 
+		c_Schemes schemes = new c_Schemes();
+		Schemes _s = new Schemes();
+
+		List<pagestructs> psl = new List<pagestructs>();
 
 		public Form1()
 		{
 			InitializeComponent();
+
+			Load += Form1_Load;
+		}
+
+		private void Form1_Load(object sender, EventArgs e)
+		{
+			foreach(Schemes v in Enum.GetValues(typeof(Schemes)))
+			{
+				pagestructs ps = new pagestructs();
+
+				switch (v)
+				{
+					case Schemes.s133:
+						ps.sch = Schemes.s133;
+						ps.positions = new int[][] { new int[] { 1 }, new int[] { 3, 3, 3 }, new int[] { 3, 3, 3 } };
+						break;
+
+					case Schemes.s134:
+						ps.sch = Schemes.s134;
+						ps.positions = new int[][] { new int[] { 1 }, new int[] { 3, 3, 3 }, new int[] { 4, 4, 4, 4 } };
+						break;
+
+					case Schemes.s212:
+						ps.sch = Schemes.s212;
+						ps.positions = new int[][] { new int[] { 2, 2 }, new int[] { 1 }, new int[] { 2, 2 } };
+						break;
+
+					case Schemes.s232:
+						ps.sch = Schemes.s232;
+						ps.positions = new int[][] { new int[] { 2, 2 }, new int[] { 3, 3, 3 }, new int[] { 2, 2 } };
+						break;
+
+					case Schemes.s313:
+						ps.sch = Schemes.s313;
+						ps.positions = new int[][] { new int[] { 3, 3, 3 }, new int[] { 1 }, new int[] { 3, 3, 3 } };
+						break;
+
+					case Schemes.s323:
+						ps.sch = Schemes.s323;
+						ps.positions = new int[][] { new int[] { 3, 3, 3 }, new int[] { 2, 2 }, new int[] { 3, 3, 3 } };
+						break;
+
+					case Schemes.s333:
+						ps.sch = Schemes.s333;
+						ps.positions = new int[][] { new int[] { 3, 3, 3 }, new int[] { 3, 3, 3 }, new int[] { 3, 3, 3 } };
+						break;
+
+					case Schemes.s434:
+						ps.sch = Schemes.s434;
+						ps.positions = new int[][] { new int[] { 4, 4, 4, 4 }, new int[] { 3, 3, 3 }, new int[] { 4, 4, 4, 4 } };
+						break;
+
+
+				}
+			}
+
+			cb_Scheme.SelectedIndex = 0;
 		}
 
 		private void Form1_DragEnter(object sender, DragEventArgs e)
@@ -132,13 +193,14 @@ namespace picsonaplane
 
 		private void cb_Scheme_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (cb_Scheme.SelectedIndex == 0) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s323); }
-			else if (cb_Scheme.SelectedIndex == 1) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s232); }
-			else if (cb_Scheme.SelectedIndex == 2) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s333); }
-			else if (cb_Scheme.SelectedIndex == 3) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s434); }
-			else if (cb_Scheme.SelectedIndex == 4) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s212); }
-			else if (cb_Scheme.SelectedIndex == 6) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s133); }
-			else if (cb_Scheme.SelectedIndex == 7) { pb_Scheme.Image = new c_Schemes().drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s134); }
+			if (cb_Scheme.SelectedIndex == 0) { pb_Scheme.Image = schemes.drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s323); _s = Schemes.s323; }
+			else if (cb_Scheme.SelectedIndex == 1) { pb_Scheme.Image = schemes.drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s232); _s = Schemes.s232; }
+			else if (cb_Scheme.SelectedIndex == 2) { pb_Scheme.Image = schemes.drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s333); _s = Schemes.s333; }
+			else if (cb_Scheme.SelectedIndex == 3) { pb_Scheme.Image = schemes.drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s434); _s = Schemes.s434; }
+			else if (cb_Scheme.SelectedIndex == 4) { pb_Scheme.Image = schemes.drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s212); _s = Schemes.s212; }
+			else if (cb_Scheme.SelectedIndex == 5) { pb_Scheme.Image = schemes.drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s313); _s = Schemes.s313; }
+			else if (cb_Scheme.SelectedIndex == 6) { pb_Scheme.Image = schemes.drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s133); _s = Schemes.s133; }
+			else if (cb_Scheme.SelectedIndex == 7) { pb_Scheme.Image = schemes.drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s134); _s = Schemes.s134; }
 		}
 	}
 

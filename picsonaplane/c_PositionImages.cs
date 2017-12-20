@@ -24,5 +24,9 @@ namespace picsonaplane
 		}
 	}
 
-	
+	public struct pagestructs
+	{
+		public Schemes sch { get; set; }
+		public int[][] positions { get; set; }
+	}
 }
