@@ -98,6 +98,8 @@ namespace picsonaplane
 				a.fourthwidth = (a.width - ((2 * a.margin) + (3 * a.padding))) / 4;
 
 				a4sizes.Add(a);
+
+				cb_BlackBG.Checked = Properties.Settings.Default.s_BlackBG;
 			}
 
 			foreach(Schemes v in Enum.GetValues(typeof(Schemes)))
@@ -358,26 +360,29 @@ namespace picsonaplane
 			{
 				PdfSharp.Pdf.PdfDocument pdoc = new PdfSharp.Pdf.PdfDocument();
 				pdoc.PageLayout = PdfSharp.Pdf.PdfPageLayout.SinglePage;
-				
-				if (!Directory.Exists(""))
+				if (!Directory.Exists(@"F:\poop"))
 				{
-					Directory.CreateDirectory(@"C:\poop\tmp");
+					Directory.CreateDirectory(@"F:\poop");
+				}
+				if (!Directory.Exists(@"F:\poop\tmp"))
+				{
+					Directory.CreateDirectory(@"F:\poop\tmp");
 				}
 				foreach (Bitmap b in bmplst)
 				{
-					b.Save(@"C:\poop\tmp\bmp_tmp_" + bmplst.IndexOf(b) + ".bmp");
+					b.Save(@"F:\poop\tmp\bmp_tmp_" + bmplst.IndexOf(b) + ".bmp");
 					PdfSharp.Pdf.PdfPage pag = pdoc.AddPage();
 
 					pag.Width = selectedDPI.width;
 					pag.Height = selectedDPI.height;
 					XGraphics gfx = XGraphics.FromPdfPage(pag);
-					DrawImage(gfx, @"C:\poop\tmp\bmp_tmp_" + bmplst.IndexOf(b) + ".bmp", 0, 0, (int)pag.Width, (int)pag.Height);
+					DrawImage(gfx, @"F:\poop\tmp\bmp_tmp_" + bmplst.IndexOf(b) + ".bmp", 0, 0, (int)pag.Width, (int)pag.Height);
 					b.Dispose();
 					gfx.Dispose();
 					pag.Close();
 				}
 
-				pdoc.Save(@"C:\poop\testpdf.pdf");
+				pdoc.Save(@"F:\poop\testpdf.pdf");
 				pdoc.Dispose();
 				//Directory.Delete(@"C:\poop\tmp", true);
 			}
@@ -385,11 +390,63 @@ namespace picsonaplane
 			{
 				foreach (Bitmap b in bmplst)
 				{
-					b.Save("C:\\poop\\bmp_" + bmplst.IndexOf(b) + ".bmp");
+					b.Save("F:\\poop\\bmp_" + bmplst.IndexOf(b) + ".bmp");
 				}
 			}
 
 			
+		}
+
+		private void cb_BlackBG_CheckedChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.s_BlackBG = cb_BlackBG.Checked;
+			Properties.Settings.Default.Save();
+		}
+
+		private void btn_Preview_Click(object sender, EventArgs e)
+		{
+			c_PositionImages cp = new c_PositionImages();
+			List<string> smallpl = new List<string>();
+			for(int i = 0; i < psl[cb_Scheme.SelectedIndex].pics; i++)
+			{
+				try
+				{
+					smallpl.Add(picList[i]);
+				}
+				catch { }
+			}
+			Bitmap bmplst = cp.createPositions(psl[cb_Scheme.SelectedIndex], smallpl, a4sizes[0])[0];
+			pb_Scheme.SizeMode = PictureBoxSizeMode.StretchImage;
+			pb_Scheme.Image = bmplst;
+		}
+
+		private void p_Preview_SizeChanged(object sender, EventArgs e)
+		{
+			doResize();
+		}
+
+		public void doResize()
+		{
+				p_Preview.Width = (int)(p_Preview.Height / 1.4142f);
+		}
+
+		private void pb_Scheme_MouseDown(object sender, MouseEventArgs e)
+		{
+			p_Preview.Visible = true;
+			p_Preview.BackgroundImage = pb_Scheme.Image;
+			p_Preview.Width = (int)(p_Preview.Height / 1.4142f);
+			p_Preview.Left = Width - p_Preview.Width;
+		}
+
+		private void pb_Scheme_MouseUp(object sender, MouseEventArgs e)
+		{
+			p_Preview.Visible = false;
+		}
+
+		private void cb_Borders_CheckedChanged(object sender, EventArgs e)
+		{
+			Properties.Settings.Default.s_Borders = cb_Borders.Checked;
+			Properties.Settings.Default.Save();
 		}
 	}
 

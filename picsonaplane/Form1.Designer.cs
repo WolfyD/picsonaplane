@@ -58,6 +58,9 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.cb_Scheme = new System.Windows.Forms.ComboBox();
 			this.pb_Scheme = new System.Windows.Forms.PictureBox();
+			this.cb_BlackBG = new System.Windows.Forms.CheckBox();
+			this.p_Preview = new System.Windows.Forms.Panel();
+			this.cb_Borders = new System.Windows.Forms.CheckBox();
 			this.ms_Menu.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pb_Scheme)).BeginInit();
 			this.SuspendLayout();
@@ -191,7 +194,7 @@
 			this.lv_PicList.GridLines = true;
 			this.lv_PicList.Location = new System.Drawing.Point(262, 27);
 			this.lv_PicList.Name = "lv_PicList";
-			this.lv_PicList.Size = new System.Drawing.Size(377, 250);
+			this.lv_PicList.Size = new System.Drawing.Size(377, 268);
 			this.lv_PicList.TabIndex = 2;
 			this.lv_PicList.UseCompatibleStateImageBehavior = false;
 			this.lv_PicList.View = System.Windows.Forms.View.Details;
@@ -237,16 +240,17 @@
 			// 
 			// btn_Preview
 			// 
-			this.btn_Preview.Location = new System.Drawing.Point(12, 196);
+			this.btn_Preview.Location = new System.Drawing.Point(12, 214);
 			this.btn_Preview.Name = "btn_Preview";
 			this.btn_Preview.Size = new System.Drawing.Size(114, 23);
 			this.btn_Preview.TabIndex = 7;
 			this.btn_Preview.Text = "Preview";
 			this.btn_Preview.UseVisualStyleBackColor = true;
+			this.btn_Preview.Click += new System.EventHandler(this.btn_Preview_Click);
 			// 
 			// btn_GenFiles
 			// 
-			this.btn_GenFiles.Location = new System.Drawing.Point(12, 225);
+			this.btn_GenFiles.Location = new System.Drawing.Point(12, 243);
 			this.btn_GenFiles.Name = "btn_GenFiles";
 			this.btn_GenFiles.Size = new System.Drawing.Size(244, 23);
 			this.btn_GenFiles.TabIndex = 8;
@@ -256,7 +260,7 @@
 			// 
 			// btn_Exit
 			// 
-			this.btn_Exit.Location = new System.Drawing.Point(12, 254);
+			this.btn_Exit.Location = new System.Drawing.Point(12, 272);
 			this.btn_Exit.Name = "btn_Exit";
 			this.btn_Exit.Size = new System.Drawing.Size(244, 23);
 			this.btn_Exit.TabIndex = 9;
@@ -288,6 +292,7 @@
 			// cb_OneCol
 			// 
 			this.cb_OneCol.AutoSize = true;
+			this.cb_OneCol.Enabled = false;
 			this.cb_OneCol.Location = new System.Drawing.Point(12, 135);
 			this.cb_OneCol.Name = "cb_OneCol";
 			this.cb_OneCol.Size = new System.Drawing.Size(84, 17);
@@ -325,22 +330,62 @@
 			// pb_Scheme
 			// 
 			this.pb_Scheme.BackColor = System.Drawing.SystemColors.AppWorkspace;
+			this.pb_Scheme.Cursor = System.Windows.Forms.Cursors.Help;
 			this.pb_Scheme.Location = new System.Drawing.Point(145, 88);
 			this.pb_Scheme.Name = "pb_Scheme";
 			this.pb_Scheme.Size = new System.Drawing.Size(111, 133);
 			this.pb_Scheme.TabIndex = 15;
 			this.pb_Scheme.TabStop = false;
+			this.pb_Scheme.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pb_Scheme_MouseDown);
+			this.pb_Scheme.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pb_Scheme_MouseUp);
+			// 
+			// cb_BlackBG
+			// 
+			this.cb_BlackBG.AutoSize = true;
+			this.cb_BlackBG.Location = new System.Drawing.Point(12, 158);
+			this.cb_BlackBG.Name = "cb_BlackBG";
+			this.cb_BlackBG.Size = new System.Drawing.Size(114, 17);
+			this.cb_BlackBG.TabIndex = 16;
+			this.cb_BlackBG.Text = "Black Background";
+			this.cb_BlackBG.UseVisualStyleBackColor = true;
+			this.cb_BlackBG.CheckedChanged += new System.EventHandler(this.cb_BlackBG_CheckedChanged);
+			// 
+			// p_Preview
+			// 
+			this.p_Preview.BackColor = System.Drawing.SystemColors.AppWorkspace;
+			this.p_Preview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.p_Preview.Dock = System.Windows.Forms.DockStyle.Right;
+			this.p_Preview.Location = new System.Drawing.Point(468, 27);
+			this.p_Preview.Name = "p_Preview";
+			this.p_Preview.Size = new System.Drawing.Size(183, 275);
+			this.p_Preview.TabIndex = 17;
+			this.p_Preview.Visible = false;
+			this.p_Preview.SizeChanged += new System.EventHandler(this.p_Preview_SizeChanged);
+			// 
+			// cb_Borders
+			// 
+			this.cb_Borders.AutoSize = true;
+			this.cb_Borders.Location = new System.Drawing.Point(12, 181);
+			this.cb_Borders.Name = "cb_Borders";
+			this.cb_Borders.Size = new System.Drawing.Size(90, 17);
+			this.cb_Borders.TabIndex = 18;
+			this.cb_Borders.Text = "Draw Borders";
+			this.cb_Borders.UseVisualStyleBackColor = true;
+			this.cb_Borders.CheckedChanged += new System.EventHandler(this.cb_Borders_CheckedChanged);
 			// 
 			// Form1
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(651, 284);
+			this.ClientSize = new System.Drawing.Size(651, 302);
+			this.Controls.Add(this.cb_Borders);
+			this.Controls.Add(this.p_Drop);
+			this.Controls.Add(this.p_Preview);
+			this.Controls.Add(this.cb_BlackBG);
 			this.Controls.Add(this.pb_Scheme);
 			this.Controls.Add(this.cb_Scheme);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.p_Drop);
 			this.Controls.Add(this.cb_OneCol);
 			this.Controls.Add(this.rb_HTML);
 			this.Controls.Add(this.btn_Exit);
@@ -398,6 +443,9 @@
 		private System.Windows.Forms.ToolStripMenuItem tmi_PageSize;
 		private System.Windows.Forms.ToolStripComboBox cb_DPI;
 		private System.Windows.Forms.ToolStripMenuItem btn_Menu_GenHTML;
+		private System.Windows.Forms.CheckBox cb_BlackBG;
+		private System.Windows.Forms.Panel p_Preview;
+		private System.Windows.Forms.CheckBox cb_Borders;
 	}
 }
 

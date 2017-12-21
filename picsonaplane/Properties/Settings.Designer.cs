@@ -58,5 +58,29 @@ namespace picsonaplane.Properties {
                 this["s_Layout"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool s_BlackBG {
+            get {
+                return ((bool)(this["s_BlackBG"]));
+            }
+            set {
+                this["s_BlackBG"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool s_Borders {
+            get {
+                return ((bool)(this["s_Borders"]));
+            }
+            set {
+                this["s_Borders"] = value;
+            }
+        }
     }
 }
