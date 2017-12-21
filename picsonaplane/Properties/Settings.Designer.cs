@@ -22,5 +22,41 @@ namespace picsonaplane.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int s_DPI {
+            get {
+                return ((int)(this["s_DPI"]));
+            }
+            set {
+                this["s_DPI"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int s_Output {
+            get {
+                return ((int)(this["s_Output"]));
+            }
+            set {
+                this["s_Output"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int s_Layout {
+            get {
+                return ((int)(this["s_Layout"]));
+            }
+            set {
+                this["s_Layout"] = value;
+            }
+        }
     }
 }

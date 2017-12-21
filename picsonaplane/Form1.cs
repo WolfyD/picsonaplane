@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PdfSharp.Drawing;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,12 +15,13 @@ namespace picsonaplane
 	public partial class Form1 : Form
 	{
 		public List<imagePositioning> imposlist = new List<imagePositioning>();
-		List<string> picList = new List<string>();
+		public c_Schemes schemes = new c_Schemes();
+		public Schemes _s = new Schemes();
+		public List<string> picList = new List<string>();
+		public List<a4size> a4sizes = new List<a4size>();
+		public List<pagestructs> psl = new List<pagestructs>();
 
-		c_Schemes schemes = new c_Schemes();
-		Schemes _s = new Schemes();
-
-		List<pagestructs> psl = new List<pagestructs>();
+		public a4size selectedDPI =  new a4size();
 
 		public Form1()
 		{
@@ -30,6 +32,74 @@ namespace picsonaplane
 
 		private void Form1_Load(object sender, EventArgs e)
 		{
+			foreach (dpi d in Enum.GetValues(typeof(dpi)))
+			{
+				a4size a = new a4size();
+
+				switch (d)
+				{
+					case dpi.d_72:
+						a._dpi = dpi.d_72;
+						a.width = 595;
+						a.height = 842;
+						a.margin = 15;
+						a.padding = 8;
+						break;
+
+					case dpi.d_200:
+						a._dpi = dpi.d_200;
+						a.width = 1654;
+						a.height = 2339;
+						a.margin = 41;
+						a.padding = 22;
+						break;
+
+					case dpi.d_300:
+						a._dpi = dpi.d_300;
+						a.width = 2480;
+						a.height = 3508;
+						a.margin = 61;
+						a.padding = 32;
+						break;
+
+					case dpi.d_400:
+						a._dpi = dpi.d_400;
+						a.width = 3307;
+						a.height = 4677;
+						a.margin = 81;
+						a.padding = 42;
+						break;
+
+					case dpi.d_600:
+						a._dpi = dpi.d_600;
+						a.width = 4961;
+						a.height = 7016;
+						a.margin = 121;
+						a.padding = 63;
+						break;
+
+					case dpi.d_1200:
+						a._dpi = dpi.d_1200;
+						a.width = 9921;
+						a.height = 14031;
+						a.margin = 241;
+						a.padding = 125;
+						break;
+						
+				}
+
+				a.fullheight = a.height - (2 * a.margin);
+				a.halfheight = (a.height - ((2 * a.margin) + a.padding)) / 2;
+				a.thirdheight = (a.height - ((2 * a.margin) + (2 * a.padding))) / 3;
+				a.fourthheight = (a.height - ((2 * a.margin) + (3 * a.padding))) / 4;
+				a.fullwidth = a.width - (2 * a.margin);
+				a.halfwidth = (a.width - ((2 * a.margin) + a.padding)) / 2;
+				a.thirdwidth = (a.width - ((2 * a.margin) + (2 * a.padding))) / 3;
+				a.fourthwidth = (a.width - ((2 * a.margin) + (3 * a.padding))) / 4;
+
+				a4sizes.Add(a);
+			}
+
 			foreach(Schemes v in Enum.GetValues(typeof(Schemes)))
 			{
 				pagestructs ps = new pagestructs();
@@ -38,49 +108,85 @@ namespace picsonaplane
 				{
 					case Schemes.s133:
 						ps.sch = Schemes.s133;
-						ps.positions = new int[][] { new int[] { 1 }, new int[] { 3, 3, 3 }, new int[] { 3, 3, 3 } };
+						ps.positions = new int[] { 1, 3, 3, 3, 3, 3, 3 };
+						ps.pics = 7;
+						ps.picsPerCol = new int[] { 1, 3, 3 };
 						break;
 
 					case Schemes.s134:
 						ps.sch = Schemes.s134;
-						ps.positions = new int[][] { new int[] { 1 }, new int[] { 3, 3, 3 }, new int[] { 4, 4, 4, 4 } };
+						ps.positions = new int[] { 1, 3, 3, 3, 4, 4, 4, 4 };
+						ps.pics = 8;
+						ps.picsPerCol = new int[] { 1, 3, 4 };
 						break;
 
 					case Schemes.s212:
 						ps.sch = Schemes.s212;
-						ps.positions = new int[][] { new int[] { 2, 2 }, new int[] { 1 }, new int[] { 2, 2 } };
+						ps.positions = new int[] { 2, 2, 1, 2, 2 };
+						ps.pics = 5;
+						ps.picsPerCol = new int[] { 2, 1, 2 };
 						break;
 
 					case Schemes.s232:
 						ps.sch = Schemes.s232;
-						ps.positions = new int[][] { new int[] { 2, 2 }, new int[] { 3, 3, 3 }, new int[] { 2, 2 } };
+						ps.positions = new int[] { 2, 2, 3, 3, 3, 2, 2 };
+						ps.pics = 7;
+						ps.picsPerCol = new int[] { 2, 3, 2 };
 						break;
 
 					case Schemes.s313:
 						ps.sch = Schemes.s313;
-						ps.positions = new int[][] { new int[] { 3, 3, 3 }, new int[] { 1 }, new int[] { 3, 3, 3 } };
+						ps.positions = new int[] { 3, 3, 3, 1, 3, 3, 3 };
+						ps.pics = 7;
+						ps.picsPerCol = new int[] { 3, 1, 3 };
 						break;
 
 					case Schemes.s323:
 						ps.sch = Schemes.s323;
-						ps.positions = new int[][] { new int[] { 3, 3, 3 }, new int[] { 2, 2 }, new int[] { 3, 3, 3 } };
+						ps.positions = new int[] { 3, 3, 3, 2, 2, 3, 3, 3 };
+						ps.pics = 8;
+						ps.picsPerCol = new int[] { 3, 2, 3 };
 						break;
 
 					case Schemes.s333:
 						ps.sch = Schemes.s333;
-						ps.positions = new int[][] { new int[] { 3, 3, 3 }, new int[] { 3, 3, 3 }, new int[] { 3, 3, 3 } };
+						ps.positions = new int[] { 3, 3, 3, 3, 3, 3, 3, 3, 3 };
+						ps.pics = 9;
+						ps.picsPerCol = new int[] { 3, 3, 3 };
 						break;
 
 					case Schemes.s434:
 						ps.sch = Schemes.s434;
-						ps.positions = new int[][] { new int[] { 4, 4, 4, 4 }, new int[] { 3, 3, 3 }, new int[] { 4, 4, 4, 4 } };
+						ps.positions = new int[] { 4, 4, 4, 4, 3, 3, 3, 4, 4, 4, 4 };
+						ps.pics = 11;
+						ps.picsPerCol = new int[] { 4, 3, 4 };
 						break;
 
 
 				}
+
+				psl.Add(ps);
+
 			}
 
-			cb_Scheme.SelectedIndex = 0;
+			cb_Scheme.SelectedIndex = Properties.Settings.Default.s_Layout;
+			cb_DPI.SelectedIndex = Properties.Settings.Default.s_DPI;
+			switch (Properties.Settings.Default.s_Output)
+			{
+				case 0:
+					rb_PDF.Checked = true;
+					break;
+
+				case 1:
+					rb_IMG.Checked = true;
+					break;
+
+				case 2:
+					rb_HTML.Checked = true;
+					break;
+
+				default: rb_PDF.Checked = true; break;
+			}
 		}
 
 		private void Form1_DragEnter(object sender, DragEventArgs e)
@@ -201,6 +307,89 @@ namespace picsonaplane
 			else if (cb_Scheme.SelectedIndex == 5) { pb_Scheme.Image = schemes.drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s313); _s = Schemes.s313; }
 			else if (cb_Scheme.SelectedIndex == 6) { pb_Scheme.Image = schemes.drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s133); _s = Schemes.s133; }
 			else if (cb_Scheme.SelectedIndex == 7) { pb_Scheme.Image = schemes.drawSchemePreview(pb_Scheme.Width, pb_Scheme.Height, Schemes.s134); _s = Schemes.s134; }
+
+			Properties.Settings.Default.s_Layout = cb_Scheme.SelectedIndex;
+			Properties.Settings.Default.Save();
+		}
+
+		private void rb_PDF_CheckedChanged(object sender, EventArgs e)
+		{
+			if (rb_PDF.Checked)
+			{
+				Properties.Settings.Default.s_Output = 0;
+			}
+			else if (rb_IMG.Checked)
+			{
+				Properties.Settings.Default.s_Output = 1;
+			}
+			else
+			{
+				Properties.Settings.Default.s_Output = 2;
+			}
+
+			Properties.Settings.Default.Save();
+		}
+
+		private void cb_DPI_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			selectedDPI = a4sizes[cb_DPI.SelectedIndex];
+			Properties.Settings.Default.s_DPI = cb_DPI.SelectedIndex;
+			Properties.Settings.Default.Save();
+		}
+
+		private void btn_Exit_Click(object sender, EventArgs e)
+		{
+			Application.Exit();
+		}
+
+		void DrawImage(XGraphics gfx, string jpegSamplePath, int x, int y, int width, int height)
+		{
+			XImage image = XImage.FromFile(jpegSamplePath);
+			gfx.DrawImage(image, x, y, width, height);
+			
+		}
+
+		private void btn_GenFiles_Click(object sender, EventArgs e)
+		{
+			c_PositionImages cp = new c_PositionImages();
+			List<Bitmap> bmplst = cp.createPositions(psl[cb_Scheme.SelectedIndex], picList, selectedDPI);
+
+			if (rb_PDF.Checked)
+			{
+				PdfSharp.Pdf.PdfDocument pdoc = new PdfSharp.Pdf.PdfDocument();
+				pdoc.PageLayout = PdfSharp.Pdf.PdfPageLayout.SinglePage;
+				
+				if (!Directory.Exists(""))
+				{
+					Directory.CreateDirectory(@"C:\poop\tmp");
+				}
+				foreach (Bitmap b in bmplst)
+				{
+					b.Save(@"C:\poop\tmp\bmp_tmp_" + bmplst.IndexOf(b) + ".bmp");
+					PdfSharp.Pdf.PdfPage pag = pdoc.AddPage();
+
+					pag.Width = selectedDPI.width;
+					pag.Height = selectedDPI.height;
+					XGraphics gfx = XGraphics.FromPdfPage(pag);
+					DrawImage(gfx, @"C:\poop\tmp\bmp_tmp_" + bmplst.IndexOf(b) + ".bmp", 0, 0, (int)pag.Width, (int)pag.Height);
+					b.Dispose();
+					gfx.Dispose();
+					pag.Close();
+				}
+
+				pdoc.Save(@"C:\poop\testpdf.pdf");
+				pdoc.Dispose();
+				//Directory.Delete(@"C:\poop\tmp", true);
+			}
+			else
+			{
+				foreach (Bitmap b in bmplst)
+				{
+					b.Save("C:\\poop\\bmp_" + bmplst.IndexOf(b) + ".bmp");
+				}
+			}
+
+			
 		}
 	}
 
@@ -214,6 +403,33 @@ namespace picsonaplane
 		public int resizedH { get; set; }
 		public int left { get; set; }
 		public int top { get; set; }
+	}
+
+	public struct a4size
+	{
+		public dpi _dpi { get; set; }
+		public int width { get; set; }
+		public int height { get; set; }
+		public int margin { get; set; }
+		public int padding { get; set; }
+		public int fullheight { get; set; }
+		public int halfheight { get; set; }
+		public int thirdheight { get; set; }
+		public int fourthheight { get; set; }
+		public int fullwidth { get; set; }
+		public int halfwidth { get; set; }
+		public int thirdwidth { get; set; }
+		public int fourthwidth { get; set; }
+	}
+
+	public enum dpi
+	{
+		d_72,
+		d_200,
+		d_300,
+		d_400,
+		d_600,
+		d_1200
 	}
 
 	public enum Schemes
