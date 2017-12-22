@@ -46,6 +46,22 @@ namespace picsonaplane
 						a.padding = 8;
 						break;
 
+					case dpi.d_100:
+						a._dpi = dpi.d_100;
+						a.width = 827;
+						a.height = 1169;
+						a.margin = 20;
+						a.padding = 10;
+						break;
+
+					case dpi.d_140:
+						a._dpi = dpi.d_140;
+						a.width = 1157;
+						a.height = 1637;
+						a.margin = 27;
+						a.padding = 14;
+						break;
+
 					case dpi.d_200:
 						a._dpi = dpi.d_200;
 						a.width = 1654;
@@ -85,7 +101,15 @@ namespace picsonaplane
 						a.margin = 241;
 						a.padding = 125;
 						break;
-						
+
+					case dpi.dd_30:
+						a._dpi = dpi.dd_30;
+						a.width = 248;
+						a.height = 351;
+						a.margin = 5;
+						a.padding = 3;
+						break;
+
 				}
 
 				a.fullheight = a.height - (2 * a.margin);
@@ -100,6 +124,7 @@ namespace picsonaplane
 				a4sizes.Add(a);
 
 				cb_BlackBG.Checked = Properties.Settings.Default.s_BlackBG;
+				cb_Borders.Checked = Properties.Settings.Default.s_Borders;
 			}
 
 			foreach(Schemes v in Enum.GetValues(typeof(Schemes)))
@@ -344,57 +369,82 @@ namespace picsonaplane
 			Application.Exit();
 		}
 
-		void DrawImage(XGraphics gfx, string jpegSamplePath, int x, int y, int width, int height)
-		{
-			XImage image = XImage.FromFile(jpegSamplePath);
-			gfx.DrawImage(image, x, y, width, height);
-			
-		}
-
 		private void btn_GenFiles_Click(object sender, EventArgs e)
 		{
 			c_PositionImages cp = new c_PositionImages();
 			List<Bitmap> bmplst = cp.createPositions(psl[cb_Scheme.SelectedIndex], picList, selectedDPI);
 
-			if (rb_PDF.Checked)
-			{
-				PdfSharp.Pdf.PdfDocument pdoc = new PdfSharp.Pdf.PdfDocument();
-				pdoc.PageLayout = PdfSharp.Pdf.PdfPageLayout.SinglePage;
-				if (!Directory.Exists(@"F:\poop"))
-				{
-					Directory.CreateDirectory(@"F:\poop");
-				}
-				if (!Directory.Exists(@"F:\poop\tmp"))
-				{
-					Directory.CreateDirectory(@"F:\poop\tmp");
-				}
-				foreach (Bitmap b in bmplst)
-				{
-					b.Save(@"F:\poop\tmp\bmp_tmp_" + bmplst.IndexOf(b) + ".bmp");
-					PdfSharp.Pdf.PdfPage pag = pdoc.AddPage();
+			FolderBrowserDialog fbd = new FolderBrowserDialog();
 
-					pag.Width = selectedDPI.width;
-					pag.Height = selectedDPI.height;
-					XGraphics gfx = XGraphics.FromPdfPage(pag);
-					DrawImage(gfx, @"F:\poop\tmp\bmp_tmp_" + bmplst.IndexOf(b) + ".bmp", 0, 0, (int)pag.Width, (int)pag.Height);
-					b.Dispose();
-					gfx.Dispose();
-					pag.Close();
-				}
-
-				pdoc.Save(@"F:\poop\testpdf.pdf");
-				pdoc.Dispose();
-				//Directory.Delete(@"C:\poop\tmp", true);
-			}
-			else
+			if(Properties.Settings.Default.s_LastDir != "" && Directory.Exists(Properties.Settings.Default.s_LastDir))
 			{
-				foreach (Bitmap b in bmplst)
-				{
-					b.Save("F:\\poop\\bmp_" + bmplst.IndexOf(b) + ".bmp");
-				}
+				fbd.SelectedPath = Properties.Settings.Default.s_LastDir;
 			}
 
-			
+			fbd.ShowNewFolderButton = true;
+
+			if (fbd.ShowDialog() == DialogResult.OK)
+			{
+				Properties.Settings.Default.s_LastDir = fbd.SelectedPath;
+				Properties.Settings.Default.Save();
+
+				string path = fbd.SelectedPath;
+				DateTime d = DateTime.Now;
+				if (rb_PDF.Checked)
+				{
+					string fn = "pic_collage_pdf_" + d.Year + d.Month + d.Day + "_" + d.Hour + d.Minute + ".pdf";
+
+					using (PdfSharp.Pdf.PdfDocument pdoc = new PdfSharp.Pdf.PdfDocument())
+					{
+						pdoc.PageLayout = PdfSharp.Pdf.PdfPageLayout.SinglePage;
+						if (!Directory.Exists(fbd.SelectedPath))
+						{
+							Directory.CreateDirectory(fbd.SelectedPath);
+						}
+						if (!Directory.Exists(fbd.SelectedPath + "\\tmp"))
+						{
+							Directory.CreateDirectory(fbd.SelectedPath + "\\tmp");
+						}
+						foreach (Bitmap b in bmplst)
+						{
+							b.Save(fbd.SelectedPath + "\\tmp\\bmp_tmp_" + bmplst.IndexOf(b) + ".bmp");
+							PdfSharp.Pdf.PdfPage pag = pdoc.AddPage();
+
+							pag.Width = selectedDPI.width;
+							pag.Height = selectedDPI.height;
+							XGraphics gfx = XGraphics.FromPdfPage(pag);
+							XImage image = XImage.FromFile(fbd.SelectedPath + "\\tmp\\bmp_tmp_" + bmplst.IndexOf(b) + ".bmp");
+							gfx.DrawImage(image, 0, 0, (int)pag.Width, (int)pag.Height);
+
+							image.Dispose();
+							b.Dispose();
+							gfx.Dispose();
+							pag.Close();
+						}
+						
+						pdoc.Save(fbd.SelectedPath + "\\" + fn);
+					}
+					Directory.Delete(fbd.SelectedPath + "\\tmp", true);
+					System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + fbd.SelectedPath + "\\" + fn + "\"");
+				}
+				else
+				{
+					string fn = "bmp_" + d.Year + d.Month + d.Day + "_" + d.Hour + d.Minute + "_";
+					foreach (Bitmap b in bmplst)
+					{
+
+						b.Save(fbd.SelectedPath + "\\" + fn + bmplst.IndexOf(b) + ".bmp");
+					}
+
+					System.Diagnostics.Process.Start("explorer.exe", "/select, \"" + fbd.SelectedPath + "\\" + fn + "0.bmp\"");
+				}
+
+				
+
+			}
+
+			GC.Collect();
+
 		}
 
 		private void cb_BlackBG_CheckedChanged(object sender, EventArgs e)
@@ -415,9 +465,12 @@ namespace picsonaplane
 				}
 				catch { }
 			}
-			Bitmap bmplst = cp.createPositions(psl[cb_Scheme.SelectedIndex], smallpl, a4sizes[0])[0];
+			Bitmap bmplst = cp.createPositions(psl[cb_Scheme.SelectedIndex], smallpl, a4sizes[8])[0];
 			pb_Scheme.SizeMode = PictureBoxSizeMode.StretchImage;
 			pb_Scheme.Image = bmplst;
+
+			//bmplst.Dispose();
+			GC.Collect();
 		}
 
 		private void p_Preview_SizeChanged(object sender, EventArgs e)
@@ -447,6 +500,50 @@ namespace picsonaplane
 		{
 			Properties.Settings.Default.s_Borders = cb_Borders.Checked;
 			Properties.Settings.Default.Save();
+		}
+
+		private void btn_OpenPics_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.Filter = "Image Files|*.jpg;*.png;*.jpeg;*.gif;*.bmp;*.exim;*.exif;*.tiff;*.tif;*.jfif|All Files|*.*";
+			ofd.Title = "Open File(s)";
+			ofd.Multiselect = true;
+
+			if(ofd.ShowDialog() == DialogResult.OK)
+			{
+				foreach(String s in ofd.FileNames)
+				{
+					addFileToList(s);
+				}
+
+				updateList();
+			}
+		}
+
+		public void removeFromList()
+		{
+			if(lv_PicList.SelectedItems != null && lv_PicList.SelectedItems.Count > 0)
+			{
+				foreach (ListViewItem lvi in lv_PicList.SelectedItems)
+				{
+					if (lvi.Tag != null && picList.Contains(lvi.Tag.ToString()))
+					{
+						picList.Remove(lvi.Tag.ToString());
+					}
+				}
+
+				updateList();
+			}
+		}
+
+		private void btn_DELETE_Click(object sender, EventArgs e)
+		{
+			removeFromList();
+		}
+
+		private void lv_PicList_KeyDown(object sender, KeyEventArgs e)
+		{
+			if(e.KeyCode == Keys.Delete) { removeFromList(); }
 		}
 	}
 
@@ -482,11 +579,14 @@ namespace picsonaplane
 	public enum dpi
 	{
 		d_72,
+		d_100,
+		d_140,
 		d_200,
 		d_300,
 		d_400,
 		d_600,
-		d_1200
+		d_1200,
+		dd_30
 	}
 
 	public enum Schemes

@@ -82,5 +82,17 @@ namespace picsonaplane.Properties {
                 this["s_Borders"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string s_LastDir {
+            get {
+                return ((string)(this["s_LastDir"]));
+            }
+            set {
+                this["s_LastDir"] = value;
+            }
+        }
     }
 }

@@ -63,9 +63,9 @@ namespace picsonaplane.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] pickup_postal_code_ranges {
+        internal static byte[] A4_measurements {
             get {
-                object obj = ResourceManager.GetObject("pickup_postal_code_ranges", resourceCulture);
+                object obj = ResourceManager.GetObject("A4_measurements", resourceCulture);
                 return ((byte[])(obj));
             }
         }

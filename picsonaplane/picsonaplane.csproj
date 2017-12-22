@@ -85,7 +85,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\pickup_postal_code_ranges.xls" />
+    <None Include="Resources\A4_measurements.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

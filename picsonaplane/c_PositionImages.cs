@@ -125,7 +125,7 @@ namespace picsonaplane
 				g.Clear(Properties.Settings.Default.s_BlackBG ? Color.Black : Color.White);
 			}
 
-				foreach (String s in pics)
+			foreach (String s in pics)
 			{
 				using (Graphics g = Graphics.FromImage(b))
 				{
@@ -133,7 +133,7 @@ namespace picsonaplane
 					int ch = 0;
 					int[] r = getPicData(i, p, a, out cw, out ch);
 					int[] r2 = new int[4];
-					for(int ii = 0; ii < 4; ii++) { r2[ii] = r[ii]; }
+					for (int ii = 0; ii < 4; ii++) { r2[ii] = r[ii]; }
 					Bitmap bmp = new Bitmap(s);
 					Size res = getSize(bmp.Width, bmp.Height, r[3], r[2]);
 					Size res2 = new Size();
@@ -145,17 +145,19 @@ namespace picsonaplane
 					g.DrawImage(bmp, new Rectangle(r[0], r[1], res2.Width, res2.Height));
 					if (Properties.Settings.Default.s_Borders)
 					{
-						if(Properties.Settings.Default.s_BlackBG)
+						if (Properties.Settings.Default.s_BlackBG)
 							g.DrawRectangle(Pens.White, new Rectangle(r2[0], r2[1], r2[2], r2[3]));
 						else
 							g.DrawRectangle(Pens.Black, new Rectangle(r2[0], r2[1], r2[2], r2[3]));
 					}
 				}
 
-				if(i == picspp - 1)
+				if (i == picspp - 1)
 				{
 					bmps.Add(b);
-					
+
+					if(a._dpi == dpi.dd_30) { break; }
+
 					i = -1;
 					b = new Bitmap(a.width, a.height);
 					using (Graphics g = Graphics.FromImage(b))
@@ -163,11 +165,11 @@ namespace picsonaplane
 						g.Clear(Properties.Settings.Default.s_BlackBG ? Color.Black : Color.White);
 					}
 				}
-				else if(s == pics.Last())
+				else if (s == pics.Last())
 				{
 					bmps.Add(b);
 				}
-				
+
 				i++;
 			}
 			

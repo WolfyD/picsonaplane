@@ -61,6 +61,10 @@
 			this.cb_BlackBG = new System.Windows.Forms.CheckBox();
 			this.p_Preview = new System.Windows.Forms.Panel();
 			this.cb_Borders = new System.Windows.Forms.CheckBox();
+			this.btn_DELETE = new System.Windows.Forms.Button();
+			this.btn_UP = new System.Windows.Forms.Button();
+			this.btn_DOWN = new System.Windows.Forms.Button();
+			this.btn_Rand = new System.Windows.Forms.Button();
 			this.ms_Menu.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pb_Scheme)).BeginInit();
 			this.SuspendLayout();
@@ -162,6 +166,8 @@
 			this.cb_DPI.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cb_DPI.Items.AddRange(new object[] {
             "72 DPI",
+            "100 DPI",
+            "140 DPI",
             "200 DPI",
             "300 DPI",
             "400 DPI",
@@ -179,6 +185,7 @@
 			this.btn_OpenPics.TabIndex = 1;
 			this.btn_OpenPics.Text = "Open Picture(s)";
 			this.btn_OpenPics.UseVisualStyleBackColor = true;
+			this.btn_OpenPics.Click += new System.EventHandler(this.btn_OpenPics_Click);
 			// 
 			// lv_PicList
 			// 
@@ -194,10 +201,11 @@
 			this.lv_PicList.GridLines = true;
 			this.lv_PicList.Location = new System.Drawing.Point(262, 27);
 			this.lv_PicList.Name = "lv_PicList";
-			this.lv_PicList.Size = new System.Drawing.Size(377, 268);
+			this.lv_PicList.Size = new System.Drawing.Size(377, 210);
 			this.lv_PicList.TabIndex = 2;
 			this.lv_PicList.UseCompatibleStateImageBehavior = false;
 			this.lv_PicList.View = System.Windows.Forms.View.Details;
+			this.lv_PicList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lv_PicList_KeyDown);
 			// 
 			// ch_ID
 			// 
@@ -303,7 +311,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(142, 64);
+			this.label2.Location = new System.Drawing.Point(129, 64);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(45, 13);
 			this.label2.TabIndex = 13;
@@ -331,9 +339,9 @@
 			// 
 			this.pb_Scheme.BackColor = System.Drawing.SystemColors.AppWorkspace;
 			this.pb_Scheme.Cursor = System.Windows.Forms.Cursors.Help;
-			this.pb_Scheme.Location = new System.Drawing.Point(145, 88);
+			this.pb_Scheme.Location = new System.Drawing.Point(132, 88);
 			this.pb_Scheme.Name = "pb_Scheme";
-			this.pb_Scheme.Size = new System.Drawing.Size(111, 133);
+			this.pb_Scheme.Size = new System.Drawing.Size(124, 149);
 			this.pb_Scheme.TabIndex = 15;
 			this.pb_Scheme.TabStop = false;
 			this.pb_Scheme.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pb_Scheme_MouseDown);
@@ -355,9 +363,9 @@
 			this.p_Preview.BackColor = System.Drawing.SystemColors.AppWorkspace;
 			this.p_Preview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.p_Preview.Dock = System.Windows.Forms.DockStyle.Right;
-			this.p_Preview.Location = new System.Drawing.Point(468, 27);
+			this.p_Preview.Location = new System.Drawing.Point(452, 27);
 			this.p_Preview.Name = "p_Preview";
-			this.p_Preview.Size = new System.Drawing.Size(183, 275);
+			this.p_Preview.Size = new System.Drawing.Size(199, 275);
 			this.p_Preview.TabIndex = 17;
 			this.p_Preview.Visible = false;
 			this.p_Preview.SizeChanged += new System.EventHandler(this.p_Preview_SizeChanged);
@@ -373,15 +381,60 @@
 			this.cb_Borders.UseVisualStyleBackColor = true;
 			this.cb_Borders.CheckedChanged += new System.EventHandler(this.cb_Borders_CheckedChanged);
 			// 
+			// btn_DELETE
+			// 
+			this.btn_DELETE.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btn_DELETE.Location = new System.Drawing.Point(262, 243);
+			this.btn_DELETE.Name = "btn_DELETE";
+			this.btn_DELETE.Size = new System.Drawing.Size(85, 23);
+			this.btn_DELETE.TabIndex = 19;
+			this.btn_DELETE.Text = "Delete";
+			this.btn_DELETE.UseVisualStyleBackColor = true;
+			this.btn_DELETE.Click += new System.EventHandler(this.btn_DELETE_Click);
+			// 
+			// btn_UP
+			// 
+			this.btn_UP.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.btn_UP.Location = new System.Drawing.Point(374, 243);
+			this.btn_UP.Name = "btn_UP";
+			this.btn_UP.Size = new System.Drawing.Size(75, 23);
+			this.btn_UP.TabIndex = 20;
+			this.btn_UP.Text = "UP";
+			this.btn_UP.UseVisualStyleBackColor = true;
+			// 
+			// btn_DOWN
+			// 
+			this.btn_DOWN.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.btn_DOWN.Location = new System.Drawing.Point(452, 243);
+			this.btn_DOWN.Name = "btn_DOWN";
+			this.btn_DOWN.Size = new System.Drawing.Size(75, 23);
+			this.btn_DOWN.TabIndex = 21;
+			this.btn_DOWN.Text = "DOWN";
+			this.btn_DOWN.UseVisualStyleBackColor = true;
+			// 
+			// btn_Rand
+			// 
+			this.btn_Rand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btn_Rand.Location = new System.Drawing.Point(554, 243);
+			this.btn_Rand.Name = "btn_Rand";
+			this.btn_Rand.Size = new System.Drawing.Size(85, 23);
+			this.btn_Rand.TabIndex = 22;
+			this.btn_Rand.Text = "Randomize";
+			this.btn_Rand.UseVisualStyleBackColor = true;
+			// 
 			// Form1
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(651, 302);
-			this.Controls.Add(this.cb_Borders);
-			this.Controls.Add(this.p_Drop);
 			this.Controls.Add(this.p_Preview);
+			this.Controls.Add(this.p_Drop);
+			this.Controls.Add(this.btn_Rand);
+			this.Controls.Add(this.btn_DOWN);
+			this.Controls.Add(this.btn_UP);
+			this.Controls.Add(this.btn_DELETE);
+			this.Controls.Add(this.cb_Borders);
 			this.Controls.Add(this.cb_BlackBG);
 			this.Controls.Add(this.pb_Scheme);
 			this.Controls.Add(this.cb_Scheme);
@@ -400,7 +453,7 @@
 			this.Name = "Form1";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Form1";
+			this.Text = "Pics on a Plane";
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
 			this.DragLeave += new System.EventHandler(this.Form1_DragLeave);
 			this.ms_Menu.ResumeLayout(false);
@@ -446,6 +499,10 @@
 		private System.Windows.Forms.CheckBox cb_BlackBG;
 		private System.Windows.Forms.Panel p_Preview;
 		private System.Windows.Forms.CheckBox cb_Borders;
+		private System.Windows.Forms.Button btn_DELETE;
+		private System.Windows.Forms.Button btn_UP;
+		private System.Windows.Forms.Button btn_DOWN;
+		private System.Windows.Forms.Button btn_Rand;
 	}
 }
 
