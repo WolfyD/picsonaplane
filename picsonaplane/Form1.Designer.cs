@@ -205,7 +205,9 @@
 			this.lv_PicList.TabIndex = 2;
 			this.lv_PicList.UseCompatibleStateImageBehavior = false;
 			this.lv_PicList.View = System.Windows.Forms.View.Details;
+			this.lv_PicList.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lv_PicList_ItemSelectionChanged);
 			this.lv_PicList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lv_PicList_KeyDown);
+			this.lv_PicList.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lv_PicList_KeyUp);
 			// 
 			// ch_ID
 			// 
@@ -248,6 +250,7 @@
 			// 
 			// btn_Preview
 			// 
+			this.btn_Preview.Enabled = false;
 			this.btn_Preview.Location = new System.Drawing.Point(12, 214);
 			this.btn_Preview.Name = "btn_Preview";
 			this.btn_Preview.Size = new System.Drawing.Size(114, 23);
@@ -258,6 +261,7 @@
 			// 
 			// btn_GenFiles
 			// 
+			this.btn_GenFiles.Enabled = false;
 			this.btn_GenFiles.Location = new System.Drawing.Point(12, 243);
 			this.btn_GenFiles.Name = "btn_GenFiles";
 			this.btn_GenFiles.Size = new System.Drawing.Size(244, 23);
@@ -363,9 +367,9 @@
 			this.p_Preview.BackColor = System.Drawing.SystemColors.AppWorkspace;
 			this.p_Preview.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.p_Preview.Dock = System.Windows.Forms.DockStyle.Right;
-			this.p_Preview.Location = new System.Drawing.Point(452, 27);
+			this.p_Preview.Location = new System.Drawing.Point(624, 27);
 			this.p_Preview.Name = "p_Preview";
-			this.p_Preview.Size = new System.Drawing.Size(199, 275);
+			this.p_Preview.Size = new System.Drawing.Size(27, 275);
 			this.p_Preview.TabIndex = 17;
 			this.p_Preview.Visible = false;
 			this.p_Preview.SizeChanged += new System.EventHandler(this.p_Preview_SizeChanged);
@@ -401,6 +405,7 @@
 			this.btn_UP.TabIndex = 20;
 			this.btn_UP.Text = "UP";
 			this.btn_UP.UseVisualStyleBackColor = true;
+			this.btn_UP.Click += new System.EventHandler(this.btn_UP_Click);
 			// 
 			// btn_DOWN
 			// 
@@ -411,6 +416,7 @@
 			this.btn_DOWN.TabIndex = 21;
 			this.btn_DOWN.Text = "DOWN";
 			this.btn_DOWN.UseVisualStyleBackColor = true;
+			this.btn_DOWN.Click += new System.EventHandler(this.btn_DOWN_Click);
 			// 
 			// btn_Rand
 			// 
@@ -421,6 +427,7 @@
 			this.btn_Rand.TabIndex = 22;
 			this.btn_Rand.Text = "Randomize";
 			this.btn_Rand.UseVisualStyleBackColor = true;
+			this.btn_Rand.Click += new System.EventHandler(this.btn_Rand_Click);
 			// 
 			// Form1
 			// 

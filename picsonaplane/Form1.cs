@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -258,6 +259,8 @@ namespace picsonaplane
 			}
 		}
 
+		public bool getSizes = false;
+
 		public void updateList()
 		{
 			lv_PicList.Items.Clear();
@@ -265,13 +268,29 @@ namespace picsonaplane
 			int i = 1;
 			foreach (string s in picList)
 			{
-				using (Bitmap b = new Bitmap(s))
+				if (getSizes)
+				{
+					using (Bitmap b = new Bitmap(s))
+					{
+						ListViewItem lvi = new ListViewItem();
+						lvi.SubItems[0].Text = i + "";
+						lvi.SubItems.Add(s.Substring(s.LastIndexOf("\\") + 1));
+						lvi.Tag = s;
+						lvi.SubItems.Add(b.Width + "x" + b.Height);
+
+						lvi.BackColor = i % 2 == 0 ? Color.LightYellow : Color.WhiteSmoke;
+
+						lv_PicList.Items.Add(lvi);
+						i++;
+					}
+				}
+				else
 				{
 					ListViewItem lvi = new ListViewItem();
 					lvi.SubItems[0].Text = i + "";
 					lvi.SubItems.Add(s.Substring(s.LastIndexOf("\\") + 1));
 					lvi.Tag = s;
-					lvi.SubItems.Add(b.Width + "x" + b.Height);
+					lvi.SubItems.Add(" -- ");
 
 					lvi.BackColor = i % 2 == 0 ? Color.LightYellow : Color.WhiteSmoke;
 
@@ -279,6 +298,9 @@ namespace picsonaplane
 					i++;
 				}
 			}
+
+			if (picList.Count == 0) { btn_Preview.Enabled = false; btn_GenFiles.Enabled = false; }
+			else { btn_Preview.Enabled = true; btn_GenFiles.Enabled = true; }
 		}
 
 		private void p_Drop_DragDrop(object sender, DragEventArgs e)
@@ -531,7 +553,7 @@ namespace picsonaplane
 						picList.Remove(lvi.Tag.ToString());
 					}
 				}
-
+				
 				updateList();
 			}
 		}
@@ -541,9 +563,160 @@ namespace picsonaplane
 			removeFromList();
 		}
 
+		public bool ctrldown = false;
+
 		private void lv_PicList_KeyDown(object sender, KeyEventArgs e)
 		{
 			if(e.KeyCode == Keys.Delete) { removeFromList(); }
+			else if(e.KeyCode == Keys.Control || e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.LControlKey || e.Control)
+			{
+				ctrldown = true;
+			}
+			if(e.KeyCode == Keys.A && ctrldown)
+			{
+				foreach(var v in lv_PicList.Items)
+				{
+					((ListViewItem)v).Selected = true;
+				}
+			}
+		}
+
+		private void btn_UP_Click(object sender, EventArgs e)
+		{
+			List<int> newindexes = new List<int>();
+
+			if (lv_PicList.SelectedItems != null && lv_PicList.SelectedItems.Count > 0)
+			{
+				if(lv_PicList.SelectedItems[0].Index > 0)
+				{
+					foreach (ListViewItem lvi in lv_PicList.SelectedItems)
+					{
+						if (lvi.Tag != null && picList.Contains(lvi.Tag.ToString()))
+						{
+							int ind = picList.IndexOf(lvi.Tag.ToString());
+							picList.Remove(lvi.Tag.ToString());
+							picList.Insert(ind - 1, lvi.Tag.ToString());
+							newindexes.Add(ind - 1);
+						}
+					}
+				}
+					
+
+				updateList();
+
+				foreach(int i in newindexes)
+				{
+					lv_PicList.Items[i].Selected = true;
+				}
+			}
+		}
+
+		private void btn_DOWN_Click(object sender, EventArgs e)
+		{
+			List<int> newindexes = new List<int>();
+
+			if (lv_PicList.SelectedItems != null && lv_PicList.SelectedItems.Count > 0)
+			{
+				if (lv_PicList.SelectedItems[lv_PicList.SelectedItems.Count - 1].Index < lv_PicList.Items.Count - 1)
+				{
+					for(int i = lv_PicList.Items.Count; i > 0; i--)
+					{
+						ListViewItem lvi = lv_PicList.Items[i - 1];
+
+						if (lvi.Selected && lvi.Tag != null && picList.Contains(lvi.Tag.ToString()))
+						{
+							int ind = picList.IndexOf(lvi.Tag.ToString());
+							picList.Remove(lvi.Tag.ToString());
+							picList.Insert(ind + 1, lvi.Tag.ToString());
+							newindexes.Add(ind + 1);
+						}
+					}
+					
+				}
+
+
+				updateList();
+
+				foreach (int i in newindexes)
+				{
+					lv_PicList.Items[i].Selected = true;
+				}
+			}
+		}
+
+		private void btn_Rand_Click(object sender, EventArgs e)
+		{
+			int len = 0;
+			Dictionary<int, string> indexes = new Dictionary<int, string>();
+			List<int> newindexes = new List<int>();
+			List<int> origindexes = new List<int>();
+
+			for(int i = 0; i < lv_PicList.Items.Count; i++)
+			{
+				origindexes.Add(i);
+			}
+
+			int current = 0;
+
+			if (lv_PicList.Items != null && lv_PicList.Items.Count > 0)
+			{
+				len = lv_PicList.Items.Count - 1;
+
+				while(newindexes.Count - 1 < len)
+				{
+					Thread.Sleep(1);
+					int selindex = new Random(Environment.TickCount + 1).Next(0, origindexes.Count);
+					int i = origindexes[selindex];
+					
+					if (!newindexes.Contains(i))
+					{
+						newindexes.Add(i);
+						indexes.Add(i, picList[current]);
+						current++;
+					}
+
+					origindexes.RemoveAt(selindex);
+				}
+
+				picList.Clear();
+
+				indexes.OrderBy(x => x.Key < x.Key);
+
+				for(int i = 0; i < indexes.Count; i++)
+				{
+					picList.Add(indexes[i]);
+				}
+
+				updateList();
+				
+			}
+		}
+
+		private void lv_PicList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+		{
+			foreach (ListViewItem lvi in lv_PicList.Items)
+			{
+				lvi.Font = new Font(lvi.Font.FontFamily, lvi.Font.Size, FontStyle.Regular);
+				lvi.BackColor = lvi.Index % 2 == 1 ? Color.LightYellow : Color.WhiteSmoke;
+				lvi.ForeColor = Color.Black;
+			}
+
+			foreach (ListViewItem lvi2 in lv_PicList.SelectedItems)
+			{
+				lvi2.Font = new Font(lvi2.Font.FontFamily, lvi2.Font.Size, FontStyle.Underline);
+				lvi2.BackColor = Color.LightBlue;
+				lvi2.ForeColor = Color.Red;
+			}
+
+
+		}
+
+		private void lv_PicList_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Control || e.KeyCode == Keys.ControlKey || e.KeyCode == Keys.LControlKey || e.KeyCode == Keys.LControlKey || e.Control)
+			{
+				ctrldown = false;
+			}
 		}
 	}
 
