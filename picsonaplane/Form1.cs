@@ -477,6 +477,11 @@ namespace picsonaplane
 
 		private void btn_Preview_Click(object sender, EventArgs e)
 		{
+			/*
+			Bitmap b = new Bitmap(picList[0]);
+			string b64 = "data:image/png;base64," + c_picconvert.pic2b64(b);
+			File.WriteAllText("C:\\REPO\\testhtml.html", "<img src='" + b64 + "' />");
+			*/
 			c_PositionImages cp = new c_PositionImages();
 			List<string> smallpl = new List<string>();
 			for(int i = 0; i < psl[cb_Scheme.SelectedIndex].pics; i++)
