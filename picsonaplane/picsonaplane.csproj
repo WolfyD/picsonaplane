@@ -91,5 +91,35 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\footer.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\header.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poap_133.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poap_134.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poap_212.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poap_232.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poap_313.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poap_323.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poap_333.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\poap_434.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

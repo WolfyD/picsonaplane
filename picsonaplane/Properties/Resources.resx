@@ -121,4 +121,34 @@
   <data name="A4_measurements" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\A4_measurements.xlsx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="footer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\footer.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  </data>
+  <data name="header" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\header.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  </data>
+  <data name="poap_133" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\poap_133.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  </data>
+  <data name="poap_134" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\poap_134.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  </data>
+  <data name="poap_212" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\poap_212.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  </data>
+  <data name="poap_232" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\poap_232.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  </data>
+  <data name="poap_313" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\poap_313.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  </data>
+  <data name="poap_323" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\poap_323.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  </data>
+  <data name="poap_333" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\poap_333.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  </data>
+  <data name="poap_434" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\poap_434.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1250</value>
+  </data>
 </root>
